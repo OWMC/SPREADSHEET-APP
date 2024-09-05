@@ -1,12 +1,30 @@
+html, body {
+    font-family: sans-serif;
+    margin: 0;
+    background: #828282;
+    color: #666;
+}
+
 #container {
     display: grid;
-    grid-template-columns: 50px repeat(10, 200px);
+    grid-template-columns: 50px repeat(26, 200px);
     grid-template-rows: repeat(11, 30px);
 }
   
 .label {
-    background-color: lightgray;
+    border-top: 1px solid #828282;
+    border-left: 1px solid #828282;
+    background-color: #f1f1f1;
     text-align: center;
     vertical-align: middle;
     line-height: 30px;
+}
+
+input {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: 1px solid #d9d9d9;
+    background-color: white;
+
 }

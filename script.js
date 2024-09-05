@@ -1,10 +1,12 @@
+// Basic formulas the cells can compute
 const infixToFunction = {
     "+": (x, y) => x + y,
     "-": (x, y) => x - y,
     "*": (x, y) => x * y,
     "/": (x, y) => x / y,
 }
-  
+
+// Resolving the formulas
 const infixEval = (str, regex) => str.replace(regex, (_match, arg1, operator, arg2) => infixToFunction[operator](parseFloat(arg1), parseFloat(arg2)));
   
 const highPrecedence = str => {
@@ -13,10 +15,10 @@ const highPrecedence = str => {
     return str === str2 ? str : highPrecedence(str2);
 }
   
+// More formulas
 const isEven = num => num % 2 === 0;
 const sum = nums => nums.reduce((acc, el) => acc + el, 0);
 const average = nums => sum(nums) / nums.length;
-
 const median = nums => {
   const sorted = nums.slice().sort((a, b) => a - b);
   const length = sorted.length;
@@ -58,12 +60,12 @@ const charRange = (start, end) => range(start.charCodeAt(0), end.charCodeAt(0)).
 
 const evalFormula = (x, cells) => {
   const idToText = id => cells.find(cell => cell.id === id).value;
-  const rangeRegex = /([A-J])([1-9][0-9]?):([A-J])([1-9][0-9]?)/gi;
+  const rangeRegex = /([A-Z])([1-9][0-9]?):([A-Z])([1-9][0-9]?)/gi;
   const rangeFromString = (num1, num2) => range(parseInt(num1), parseInt(num2));
   const elemValue = num => character => idToText(character + num);
   const addCharacters = character1 => character2 => num => charRange(character1, character2).map(elemValue(num));
   const rangeExpanded = x.replace(rangeRegex, (_match, char1, num1, char2, num2) => rangeFromString(num1, num2).map(addCharacters(char1)(char2)));
-  const cellRegex = /[A-J][1-9][0-9]?/gi;
+  const cellRegex = /[A-Z][1-9][0-9]?/gi;
   const cellExpanded = rangeExpanded.replace(cellRegex, match => idToText(match.toUpperCase()));
   const functionExpanded = applyFunction(cellExpanded);
   return functionExpanded === x ? functionExpanded : evalFormula(functionExpanded, cells);
@@ -71,16 +73,18 @@ const evalFormula = (x, cells) => {
 
 window.onload = () => {
   const container = document.getElementById("container");
+  // Create array of labels (child divs) for X and Y axis. 
   const createLabel = (name) => {
     const label = document.createElement("div");
     label.className = "label";
     label.textContent = name;
     container.appendChild(label);
   }
-  const letters = charRange("A", "J");
+  const letters = charRange("A", "Z");
   letters.forEach(createLabel);
   range(1, 99).forEach(number => {
     createLabel(number);
+    // Create the cells
     letters.forEach(letter => {
       const input = document.createElement("input");
       input.type = "text";
